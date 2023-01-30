@@ -3,8 +3,8 @@ from datetime import date, timedelta, datetime, timezone
 from google.cloud.bigquery import Table
 
 
-def create_temp_table(table_id, query, query_parameters=[], days=1):
-    client = bigquery.Client()
+def create_temp_table(table_id, query, query_parameters=[], days=1, project=None):
+    client = bigquery.Client(project=project)
     job_config = bigquery.QueryJobConfig(
         destination=table_id,
         write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,
