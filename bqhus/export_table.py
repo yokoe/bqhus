@@ -11,10 +11,13 @@ def extract_table_to_gcs_as_csv(
     gzip=False,
     print_header=True,
     project=None,
+    client=None,
 ):
     destination_uri = f"gs://{gcs_bucket}/{object_name}"
 
-    client = bigquery.Client(project=project)
+    c = client
+    if c is None:
+        c = bigquery.Client(project=project)
 
     job_config = bigquery.job.ExtractJobConfig()
     if gzip:
@@ -22,7 +25,7 @@ def extract_table_to_gcs_as_csv(
     job_config.field_delimiter = field_delimiter
     job_config.print_header = print_header
 
-    extract_job = client.extract_table(
+    extract_job = c.extract_table(
         Table.from_string(table_id),
         destination_uri,
         location=location,

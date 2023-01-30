@@ -3,10 +3,13 @@ from datetime import date, timedelta, datetime, timezone
 from google.cloud.bigquery import Table
 
 
-def create_temp_table(
-    table_id, query, query_parameters=[], days=1, overwrite=False, project=None
+def create_table(
+    table_id, query, query_parameters=[], overwrite=False, project=None, client=None
 ):
-    client = bigquery.Client(project=project)
+    c = client
+    if c is None:
+        c = bigquery.Client(project=project)
+
     write_disposition = bigquery.WriteDisposition.WRITE_EMPTY
     if overwrite:
         write_disposition = bigquery.WriteDisposition.WRITE_TRUNCATE
@@ -15,10 +18,32 @@ def create_temp_table(
         write_disposition=write_disposition,
         query_parameters=query_parameters,
     )
-    query_job = client.query(query, job_config=job_config)
+    query_job = c.query(query, job_config=job_config)
     query_job.result()
 
-    table = client.get_table(Table.from_string(table_id))
+
+def create_temp_table(
+    table_id,
+    query,
+    query_parameters=[],
+    days=1,
+    overwrite=False,
+    project=None,
+    client=None,
+):
+    c = client
+    if c is None:
+        c = bigquery.Client(project=project)
+    create_table(
+        table_id=table,
+        query=query,
+        query_parameters=query_parameters,
+        overwrite=overwrite,
+        project=project,
+        client=c,
+    )
+
+    table = c.get_table(Table.from_string(table_id))
     expiration = datetime.now(timezone.utc) + timedelta(days=days)
     table.expires = expiration
-    table = client.update_table(table, ["expires"])
+    table = c.update_table(table, ["expires"])
