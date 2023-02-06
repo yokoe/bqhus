@@ -35,7 +35,7 @@ def create_temp_table(
     if c is None:
         c = bigquery.Client(project=project)
     create_table(
-        table_id=table,
+        table_id=table_id,
         query=query,
         query_parameters=query_parameters,
         overwrite=overwrite,
