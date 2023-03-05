@@ -14,5 +14,5 @@ bqhus.create_temp_table("foo.bar.sample", "SELECT * FROM `some.source.table`", d
 
 ### Export table to GCS as csv
 ```
-bqhus.extract_table_to_gcs_as_csv("foo.bar.sample", "my-bucket", "exported-table.csv.gz", gzip=True)
+bqhus.export_table("foo.bar.sample").as_csv(gzip=True).to_gcs("my-bucket", "exported-table.csv.gz")
 ```
