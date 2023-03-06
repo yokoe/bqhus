@@ -16,3 +16,9 @@ bqhus.create_temp_table("foo.bar.sample", "SELECT * FROM `some.source.table`", d
 ```
 bqhus.export_table("foo.bar.sample").as_csv(gzip=True).to_gcs("my-bucket", "exported-table.csv.gz")
 ```
+
+
+### Generate random table name
+```
+bqhus.random_table_name("prefix-here")
+```
