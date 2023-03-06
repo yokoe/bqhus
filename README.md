@@ -1,4 +1,6 @@
 # bqhus
+[![Code Climate](https://codeclimate.com/github/yokoe/bqhus.png)](https://codeclimate.com/github/github/yokoe/bqhus)
+
 BigQuery helper utils for Python
 
 ## How to use
