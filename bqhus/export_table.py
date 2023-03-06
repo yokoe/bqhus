@@ -33,7 +33,7 @@ class CSVExport:
 
 
 class ExportTask:
-    def __init__(self, table_id, location, project, client):
+    def __init__(self, table_id, location=None, project=None, client=None):
         self.table_id = table_id
         self.location = location
         self.project = project
