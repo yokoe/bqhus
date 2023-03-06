@@ -1,6 +1,15 @@
 from google.cloud import bigquery
 from datetime import date, timedelta, datetime, timezone
 from google.cloud.bigquery import Table
+from .export_table import ExportTask
+
+
+class CreateTableResult:
+    def __init__(self, table_id):
+        self.table_id = table_id
+
+    def export(self):
+        return ExportTask(table_id=self.table_id)
 
 
 def create_table(
@@ -21,6 +30,8 @@ def create_table(
     query_job = c.query(query, job_config=job_config)
     query_job.result()
 
+    return CreateTableResult(table_id)
+
 
 def create_temp_table(
     table_id,
@@ -34,7 +45,7 @@ def create_temp_table(
     c = client
     if c is None:
         c = bigquery.Client(project=project)
-    create_table(
+    result = create_table(
         table_id=table_id,
         query=query,
         query_parameters=query_parameters,
@@ -47,3 +58,5 @@ def create_temp_table(
     expiration = datetime.now(timezone.utc) + timedelta(days=days)
     table.expires = expiration
     table = c.update_table(table, ["expires"])
+
+    return result
