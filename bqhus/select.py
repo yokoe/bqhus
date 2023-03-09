@@ -2,28 +2,35 @@ from google.cloud import bigquery
 from jinja2 import Template, Environment, FileSystemLoader
 
 
-class Select:
-    def __init__(self, query_job):
-        self.query_job = query_job
+class SelectTask:
+    def __init__(self, client, query):
+        self.client = client
+        self.query = query
+        self.query_parameters = []
+
+    def params(self, params):
+        self.query_parameters = params
+        return self
+
+    def job(self):
+        job_config = bigquery.QueryJobConfig(query_parameters=self.query_parameters)
+        return self.client.query(self.query, job_config=job_config)
 
     def as_dicts(self):
-        return [dict(row) for row in self.query_job]
+        query_job = self.job()
+        return [dict(row) for row in query_job]
 
     def first_as_dict(self):
-        return self.as_dicts[0]
+        return self.as_dicts()[0]
 
 
 def select(client, query, query_parameters=[]):
-    job_config = bigquery.QueryJobConfig(query_parameters=query_parameters)
-    query_job = client.query(query, job_config=job_config)
-    return Select(query_job=query_job)
+    return SelectTask(client, query).params(query_parameters)
 
 
-def select_with_template(
-    client, template_dir, template_name, template_parameters={}, query_parameters=[]
-):
+def select_with_template(client, template_dir, template_name, template_parameters={}):
     env = Environment(loader=FileSystemLoader(template_dir, encoding="utf8"))
     tmpl = env.get_template(template_name)
     query = tmpl.render(template_parameters)
 
-    return select(client, query, query_parameters)
+    return select(client, query)
