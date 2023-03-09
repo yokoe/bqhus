@@ -5,8 +5,16 @@ from .export_table import ExportTask
 
 
 class CreateTableResult:
-    def __init__(self, table_id):
+    def __init__(self, client, table_id):
+        self.client = client
         self.table_id = table_id
+
+    def expires_in(self, days):
+        table = self.client.get_table(Table.from_string(self.table_id))
+        expiration = datetime.now(timezone.utc) + timedelta(days=days)
+        table.expires = expiration
+        table = self.client.update_table(table, ["expires"])
+        return self
 
     def export(self):
         return ExportTask(table_id=self.table_id)
@@ -30,33 +38,4 @@ def create_table(
     query_job = c.query(query, job_config=job_config)
     query_job.result()
 
-    return CreateTableResult(table_id)
-
-
-def create_temp_table(
-    table_id,
-    query,
-    query_parameters=[],
-    days=1,
-    overwrite=False,
-    project=None,
-    client=None,
-):
-    c = client
-    if c is None:
-        c = bigquery.Client(project=project)
-    result = create_table(
-        table_id=table_id,
-        query=query,
-        query_parameters=query_parameters,
-        overwrite=overwrite,
-        project=project,
-        client=c,
-    )
-
-    table = c.get_table(Table.from_string(table_id))
-    expiration = datetime.now(timezone.utc) + timedelta(days=days)
-    table.expires = expiration
-    table = c.update_table(table, ["expires"])
-
-    return result
+    return CreateTableResult(client, table_id)
