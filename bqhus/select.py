@@ -1,6 +1,6 @@
 from google.cloud import bigquery
 from jinja2 import Template, Environment, FileSystemLoader
-import create_table
+from .create_table import create_table
 
 
 class SelectTask:
@@ -25,7 +25,7 @@ class SelectTask:
         return self.as_dicts()[0]
 
     def to_table(self, table_id, overwrite=False):
-        return create_table.create_table(
+        return create_table(
             table_id, self.query, self.query_parameters, overwrite=overwrite
         )
 
