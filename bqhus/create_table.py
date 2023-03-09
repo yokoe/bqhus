@@ -38,4 +38,4 @@ def create_table(
     query_job = c.query(query, job_config=job_config)
     query_job.result()
 
-    return CreateTableResult(client, table_id)
+    return CreateTableResult(c, table_id)
