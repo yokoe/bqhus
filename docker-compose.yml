@@ -1,0 +1,7 @@
+version: '3'
+services:
+  bqhus:
+    build: .
+    tty: true
+    volumes:
+      - .:/code

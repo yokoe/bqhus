@@ -1,10 +1,10 @@
 import unittest
-import naming
+from bqhus import random_table_name
 
 
 class TestNaming(unittest.TestCase):
     def test_uniqueness(self):
-        names = [naming.random_table_name("uniq-test") for x in range(0, 100)]
+        names = [random_table_name("uniq-test") for x in range(0, 100)]
         self.assertEqual(len(names), len(set(names)))
 
 
