@@ -11,7 +11,7 @@ AUTHOR_EMAIL = "kreuz45@kreuz45.com"
 URL = "https://github.com/yokoe/bqhus"
 LICENSE = "MIT"
 DOWNLOAD_URL = URL
-VERSION = "0.0.8"
+VERSION = "0.0.9"
 PYTHON_REQUIRES = ">=3.6"
 INSTALL_REQUIRES = open("requirements.txt").read().splitlines()
 PACKAGES = ["bqhus"]
