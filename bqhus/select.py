@@ -26,7 +26,11 @@ class SelectTask:
 
     def to_table(self, table_id, overwrite=False):
         return create_table(
-            table_id, self.query, self.query_parameters, overwrite=overwrite
+            table_id,
+            self.query,
+            self.query_parameters,
+            overwrite=overwrite,
+            client=self.client,
         )
 
 
