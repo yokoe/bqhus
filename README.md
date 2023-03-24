@@ -8,6 +8,7 @@ BigQuery helper utils for Python
 ```
 import bqhus
 bqhus.select("SELECT * FROM `foo.bar.purchases` LIMIT 20").as_dicts()
+bqhus.select("SELECT * FROM `foo.bar.purchases` ORDER BY created_at LIMIT 1", client=bigquery.Client(project="foobar")).first_as_dict()
 ```
 
 ### Create table from query
