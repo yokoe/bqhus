@@ -41,9 +41,11 @@ def select(query, query_parameters=[], client=None):
     return SelectTask(client, query).params(query_parameters)
 
 
-def select_with_template(template_dir, template_name, template_parameters={}, client=None):
+def select_with_template(
+    template_dir, template_name, template_parameters={}, client=None
+):
     env = Environment(loader=FileSystemLoader(template_dir, encoding="utf8"))
     tmpl = env.get_template(template_name)
     query = tmpl.render(template_parameters)
 
-    return select(client, query)
+    return select(query, client)
