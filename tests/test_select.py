@@ -5,7 +5,7 @@ import bqhus
 class TestSelect(unittest.TestCase):
     def test_select_with_no_params(self):
         query = "SELECT 1"
-        task = bqhus.select(None, query)
+        task = bqhus.select(query)
         self.assertEqual(query, task.query)
 
 
