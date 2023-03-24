@@ -5,3 +5,4 @@ services:
     tty: true
     volumes:
       - .:/code
+      - ~/.config:/root/.config
