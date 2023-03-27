@@ -20,6 +20,7 @@ INSTALL_REQUIRES = [
     "db-dtypes>=1.0.5",
 ]
 PACKAGES = ["bqhus"]
+PACKAGE_DIR = {"": "src"}
 KEYWORDS = "bigquery"
 CLASSIFIERS = [
     "License :: OSI Approved :: MIT License",
@@ -43,6 +44,7 @@ setup(
     url=URL,
     download_url=URL,
     packages=PACKAGES,
+    package_dir=PACKAGE_DIR,
     classifiers=CLASSIFIERS,
     license=LICENSE,
     keywords=KEYWORDS,
