@@ -16,6 +16,11 @@ class TestSelect(unittest.TestCase):
         words = bqhus.select(query).as_dicts()
         self.assertEqual(len(words), 5)
 
+    def test_select_to_dataframe(self):
+        query = "SELECT word FROM `bigquery-public-data.samples.shakespeare` order by rand() limit 5"
+        df = bqhus.select(query).to_dataframe()
+        self.assertEqual(len(df.index), 5)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -36,6 +36,9 @@ class SelectTask:
             client=self.client,
         )
 
+    def to_dataframe(self):
+        return self.job().to_dataframe()
+
 
 def select(query, query_parameters=[], client=None):
     return SelectTask(client, query).params(query_parameters)
