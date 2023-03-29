@@ -35,7 +35,6 @@ class SelectTask:
         return self.client if self.client is not None else bigquery.Client()
 
     def job(self):
-        print(f"query params: {self.query_parameters}")
         job_config = bigquery.QueryJobConfig(query_parameters=self.query_parameters)
         return self.bq_client().query(self.query, job_config=job_config)
 
