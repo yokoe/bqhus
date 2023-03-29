@@ -1,6 +1,7 @@
 from google.cloud import bigquery
 from jinja2 import Template, Environment, FileSystemLoader
 from .create_table import create_table
+import google.cloud.bigquery
 
 
 class SelectTask:
@@ -58,12 +59,16 @@ class SelectTask:
         return self.job().to_dataframe()
 
 
-def select(query, query_parameters=[], client=None):
+def select(
+    query: str,
+    query_parameters=[],
+    client: google.cloud.bigquery.Client = None,
+):
     return SelectTask(client=client, query=query).params(query_parameters)
 
 
 def select_with_template(
-    template_dir, template_name, template_parameters={}, client=None
+    template_dir: str, template_name: str, template_parameters={}, client=None
 ):
     env = Environment(loader=FileSystemLoader(template_dir, encoding="utf8"))
     tmpl = env.get_template(template_name)
