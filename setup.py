@@ -11,7 +11,7 @@ AUTHOR_EMAIL = "kreuz45@kreuz45.com"
 URL = "https://github.com/yokoe/bqhus"
 LICENSE = "MIT"
 DOWNLOAD_URL = URL
-VERSION = "0.1.7"
+VERSION = "0.1.8"
 PYTHON_REQUIRES = ">=3.6"
 INSTALL_REQUIRES = [
     "google-cloud-bigquery>=3.4.0",
