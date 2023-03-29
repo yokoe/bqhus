@@ -12,7 +12,7 @@ URL = "https://github.com/yokoe/bqhus"
 LICENSE = "MIT"
 DOWNLOAD_URL = URL
 VERSION = "0.1.8"
-PYTHON_REQUIRES = ">=3.6"
+PYTHON_REQUIRES = ">=3.9"
 INSTALL_REQUIRES = [
     "google-cloud-bigquery>=3.4.0",
     "Jinja2>=3.0.0",
