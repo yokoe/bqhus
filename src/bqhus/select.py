@@ -69,4 +69,4 @@ def select_with_template(
     tmpl = env.get_template(template_name)
     query = tmpl.render(template_parameters)
 
-    return select(query, client)
+    return select(query=query, query_parameters=[], client=client)
