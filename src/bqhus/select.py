@@ -13,10 +13,29 @@ class SelectTask:
         self.query_parameters = params
         return self
 
+    def int64_param(self, key: str, value: int):
+        if self.query_parameters is None:
+            self.query_parameters = []
+
+        self.query_parameters.append(
+            bigquery.ScalarQueryParameter(key, "INT64", value),
+        )
+        return self
+
+    def str_param(self, key: str, value: str):
+        if self.query_parameters is None:
+            self.query_parameters = []
+
+        self.query_parameters.append(
+            bigquery.ScalarQueryParameter(key, "STRING", value),
+        )
+        return self
+
     def bq_client(self):
         return self.client if self.client is not None else bigquery.Client()
 
     def job(self):
+        print(f"query params: {self.query_parameters}")
         job_config = bigquery.QueryJobConfig(query_parameters=self.query_parameters)
         return self.bq_client().query(self.query, job_config=job_config)
 
@@ -41,7 +60,7 @@ class SelectTask:
 
 
 def select(query, query_parameters=[], client=None):
-    return SelectTask(client, query).params(query_parameters)
+    return SelectTask(client=client, query=query).params(query_parameters)
 
 
 def select_with_template(
