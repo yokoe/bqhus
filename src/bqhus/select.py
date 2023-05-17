@@ -61,10 +61,10 @@ class SelectTask:
 
 def select(
     query: str,
-    query_parameters=[],
+    query_parameters=None,
     client: google.cloud.bigquery.Client = None,
 ):
-    return SelectTask(client=client, query=query).params(query_parameters)
+    return SelectTask(client=client, query=query).params([] if query_parameters is None else query_parameters)
 
 
 def select_with_template(
