@@ -36,6 +36,16 @@ class TestSelect(unittest.TestCase):
         select_task.int64_param("max_count", 5)
         self.assertEqual(len(select_task.query_parameters), 1)
 
+    def test_select_params(self):
+        query = "SELECT word FROM `bigquery-public-data.samples.shakespeare` order by rand() limit @max_count"
+        task1 = bqhus.select(query).int64_param("max_count", 1)
+        self.assertEqual(len(task1.query_parameters), 1)
+
+        task2 = bqhus.select(query).int64_param("max_count", 2)
+        self.assertEqual(len(task2.query_parameters), 1)
+
+
+
 
 if __name__ == "__main__":
     unittest.main()
