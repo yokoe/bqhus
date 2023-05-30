@@ -32,6 +32,24 @@ class SelectTask:
         )
         return self
 
+    def int64_array_param(self, key: str, values: list[int]):
+        if self.query_parameters is None:
+            self.query_parameters = []
+
+        self.query_parameters.append(
+            bigquery.ArrayQueryParameter(key, "INT64", values),
+        )
+        return self
+
+    def str_array_param(self, key: str, values: list[str]):
+        if self.query_parameters is None:
+            self.query_parameters = []
+
+        self.query_parameters.append(
+            bigquery.ArrayQueryParameter(key, "STRING", values),
+        )
+        return self
+
     def bq_client(self):
         return self.client if self.client is not None else bigquery.Client()
 
@@ -64,7 +82,9 @@ def select(
     query_parameters=None,
     client: google.cloud.bigquery.Client = None,
 ):
-    return SelectTask(client=client, query=query).params([] if query_parameters is None else query_parameters)
+    return SelectTask(client=client, query=query).params(
+        [] if query_parameters is None else query_parameters
+    )
 
 
 def select_with_template(
